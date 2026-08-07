@@ -14,14 +14,27 @@
 </head>
 
 <body>
+    <header class="header">
+    <div class="container header__content">
+        <a class="logo" href="#">
+            Добрый Злыдень
+        </a>
+
+        <nav class="navigation">
+            <a href="#about">О проекте</a>
+            <a href="#features">Ресурс</a>
+            <a href="#contact">Контакты</a>
+        </nav>
+    </div>
+    </header>
     <main class="hero">
         <div class="hero__content">
             <p class="hero__label">КОГПОАУ ВЭМТ</p>
 
-            <h1>Использование ИИ в СПО</h1>
+            <h1>ИИ-инструменты для преподавателей СПО</h1>
 
             <p class="hero__description">
-                Это исследовательская работа преподавателя Информатики, целью которой является разработка методических пособий по  применению Искусственных интеллектов в преподвании информатики в СПО
+                Это работа преподавателя Информатики, целью которой является разработка методических пособий по  применению Искусственных интеллектов в преподвании информатики в СПО
             </p>
 
             <a class="hero__button" href="#about">
@@ -36,8 +49,103 @@
         <p>
             Здесь будет описание учебного проекта.
         </p>
-    </section>
+        <button class="demo-button" id="demoButton">
+            Проверить JavaScript
+        </button>
 
+            <p class="demo-message" id="demoMessage"></p>
+        
+        </section>
+    
+<section class="calculator">
+    <div class="container">
+        <h2>Сколько времени можно сэкономить?</h2>
+
+        <p>
+            Укажи, сколько часов в неделю уходит
+            на повторяющиеся задачи.
+        </p>
+
+        <div class="calculator__form">
+            <input
+                type="number"
+                id="hoursInput"
+                min="0"
+                placeholder="Например, 8"
+            >
+
+            <button id="calculateButton">
+                Рассчитать
+            </button>
+        </div>
+
+        <p id="calculatorResult"></p>
+    </div>
+</section>
+
+
+
+    <section class="features" id="features">
+    <div class="container">
+        <div class="section-heading">
+            <p class="section-label">Возможности</p>
+
+            <h2>
+                Что можно автоматизировать с помощью ИИ
+            </h2>
+
+            <p>
+                Инструменты, которые помогают преподавателю
+                тратить меньше времени на рутинную работу.
+            </p>
+        </div>
+
+        <div class="features__grid">
+            <article class="feature-card">
+                <span class="feature-card__number">01</span>
+
+                <h3>Учебные материалы</h3>
+
+                <p>
+                    Создание заданий, тестов, инструкций,
+                    планов занятий и дополнительных материалов.
+                </p>
+            </article>
+
+            <article class="feature-card">
+                <span class="feature-card__number">02</span>
+
+                <h3>Работа с документами</h3>
+
+                <p>
+                    Обработка таблиц, текстов, отчётов
+                    и других повторяющихся документов.
+                </p>
+            </article>
+
+            <article class="feature-card">
+                <span class="feature-card__number">03</span>
+
+                <h3>Автоматизация</h3>
+
+                <p>
+                    Создание небольших сервисов, ботов
+                    и сценариев для повседневных задач.
+                </p>
+            </article>
+            <article class="feature-card">
+                <span class="feature-card__number">04</span>
+
+                <h3>новая карточка</h3>
+
+                <p>
+                    Создание небольших сервисов, ботов
+                    и сценариев для повседневных задач.
+                </p>
+            </article>
+        </div>
+    </div>
+</section>
     <script src="script.js"></script>
 </body>
 </html>
