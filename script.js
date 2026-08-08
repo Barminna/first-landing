@@ -193,6 +193,7 @@ function renderTasks() {
         ${task.completed ? 'checked' : ''}
     >
 
+    
     <span class="todo-item__text">
         ${task.text}
     </span>
@@ -244,18 +245,7 @@ clearCompletedButton.addEventListener('click', function () {
     renderTasks();
 });
 
-const completedCount =
-    tasks.filter(function (task) {
-        return task.completed;
-    }).length;
 
-//дз кнопка
-
-    saveTasks();
-    renderTasks();
-});
-        todoList.append(item);
-    });
 
 
 todoCounter.textContent =
