@@ -164,121 +164,243 @@ button.classList.add('active');
 });
 
 
-// приложение список задач
-const savedTasks =
-    localStorage.getItem('tasks');
-
-let tasks =
-    savedTasks
-        ? JSON.parse(savedTasks)
-        : [];  //пустой массив
-
-function renderTasks() {
-    todoList.innerHTML = '';
-
-    tasks.forEach(function (task) {
-        const item =
-            document.createElement('li');
-
-        item.classList.add('todo-item');
-            if (task.completed) {
-                item.classList.add('completed');
-            }
+// ==============================
+// ПРИЛОЖЕНИЕ "СПИСОК ЗАДАЧ"
+// ==============================
 
 
-        item.innerHTML = `
-    <input
-        type="checkbox"
-        class="todo-item__checkbox"
-        ${task.completed ? 'checked' : ''}
-    >
+// Получаем сохранённые задачи из браузера.
+// Если их нет — используем пустой массив.
+const savedTasks = localStorage.getItem('tasks');
 
-    
-    <span class="todo-item__text">
-        ${task.text}
-    </span>
-
-    
-
-    <button
-        class="todo-item__delete"
-        type="button"
-    >
-        Удалить
-    </button>
-`;
+let tasks = savedTasks
+    ? JSON.parse(savedTasks)
+    : [];
 
 
-//меняет ложь на истину
-const checkbox =
-    item.querySelector('.todo-item__checkbox');
+// --------------------------------
+// Функция сохранения задач
+// --------------------------------
 
-checkbox.addEventListener('change', function () {
-    task.completed = checkbox.checked;
-    saveTasks();
-    renderTasks();
-});
-
-//добавляем удаление
-const deleteButton =
-    item.querySelector('.todo-item__delete');
-
-    deleteButton.addEventListener('click', function () {
-    tasks = tasks.filter(function (item) {
-        return item.id !== task.id;
-    });
-    saveTasks();
-    renderTasks();
-});
-        todoList.append(item);
-    });
-}
-
-renderTasks();
-
-clearCompletedButton.addEventListener('click', function () {
-    tasks = tasks.filter(function (task) {
-        return !task.completed;
-    });
-
-    saveTasks();
-    renderTasks();
-});
-
-
-
-
-todoCounter.textContent =
-    `Всего задач: ${tasks.length}. Выполнено: ${completedCount}.`;
-
-//отправка формы
-todoForm.addEventListener('submit', function (event) {
-    event.preventDefault();
-
-    const text = taskInput.value.trim();
-
-    if (text === '') {
-        return;
-    }
-
-    const newTask = {
-        id: Date.now(),
-        text: text,
-        completed: false
-    };
-
-    tasks.push(newTask);
-        saveTasks();
-        renderTasks();
-
-    taskInput.value = '';
-});
-
-
-//функция сохранения из браузера
 function saveTasks() {
     localStorage.setItem(
         'tasks',
         JSON.stringify(tasks)
     );
 }
+
+
+// --------------------------------
+// Функция отображения задач
+// --------------------------------
+
+function renderTasks() {
+
+    // Каждый раз сначала очищаем список,
+    // а потом рисуем его заново.
+    todoList.innerHTML = '';
+
+
+    // Если задач нет — показываем сообщение.
+    if (tasks.length === 0) {
+        const emptyMessage =
+            document.createElement('li');
+
+        emptyMessage.textContent =
+            'Список пока пуст.';
+
+        todoList.append(emptyMessage);
+    }
+
+
+    // Перебираем все задачи массива.
+    tasks.forEach(function (task) {
+
+        // Создаём элемент списка.
+        const item =
+            document.createElement('li');
+
+        item.classList.add('todo-item');
+
+
+        // Если задача выполнена —
+        // добавляем класс completed.
+        if (task.completed) {
+            item.classList.add('completed');
+        }
+
+
+        // Создаём содержимое задачи:
+        // чекбокс, текст и кнопку удаления.
+        item.innerHTML = `
+            <input
+                type="checkbox"
+                class="todo-item__checkbox"
+                ${task.completed ? 'checked' : ''}
+            >
+
+            <span class="todo-item__text">
+                ${task.text}
+            </span>
+
+            <button
+                class="todo-item__delete"
+                type="button"
+            >
+                Удалить
+            </button>
+        `;
+
+
+        // -------------------------
+        // Чекбокс "Выполнено"
+        // -------------------------
+
+        const checkbox =
+            item.querySelector(
+                '.todo-item__checkbox'
+            );
+
+        checkbox.addEventListener(
+            'change',
+            function () {
+
+                // Записываем состояние чекбокса
+                // в объект задачи.
+                task.completed =
+                    checkbox.checked;
+
+                // Сохраняем изменения.
+                saveTasks();
+
+                // Перерисовываем список.
+                renderTasks();
+            }
+        );
+
+
+        // -------------------------
+        // Кнопка "Удалить"
+        // -------------------------
+
+        const deleteButton =
+            item.querySelector(
+                '.todo-item__delete'
+            );
+
+        deleteButton.addEventListener(
+            'click',
+            function () {
+
+                // Оставляем все задачи,
+                // кроме текущей.
+                tasks = tasks.filter(
+                    function (item) {
+                        return item.id !== task.id;
+                    }
+                );
+
+                saveTasks();
+                renderTasks();
+            }
+        );
+
+
+        // Только теперь добавляем задачу
+        // в список на странице.
+        todoList.append(item);
+    });
+
+
+    // --------------------------------
+    // Счётчик задач
+    // --------------------------------
+
+    const completedCount =
+        tasks.filter(function (task) {
+            return task.completed;
+        }).length;
+
+    todoCounter.textContent =
+        `Всего задач: ${tasks.length}. Выполнено: ${completedCount}.`;
+}
+
+
+// --------------------------------
+// Первый вывод задач на страницу
+// --------------------------------
+
+renderTasks();
+
+
+// --------------------------------
+// Добавление новой задачи
+// --------------------------------
+
+todoForm.addEventListener(
+    'submit',
+    function (event) {
+
+        // Не даём форме перезагрузить страницу.
+        event.preventDefault();
+
+        // Получаем текст и убираем
+        // пробелы по краям.
+        const text =
+            taskInput.value.trim();
+
+
+        // Пустую задачу не добавляем.
+        if (text === '') {
+            return;
+        }
+
+
+        // Создаём объект новой задачи.
+        const newTask = {
+            id: Date.now(),
+            text: text,
+            completed: false
+        };
+
+
+        // Добавляем объект в массив.
+        tasks.push(newTask);
+
+
+        // Сохраняем массив.
+        saveTasks();
+
+
+        // Перерисовываем список.
+        renderTasks();
+
+
+        // Очищаем поле ввода.
+        taskInput.value = '';
+    }
+);
+
+
+// --------------------------------
+// Кнопка "Очистить выполненные"
+// --------------------------------
+
+clearCompletedButton.addEventListener(
+    'click',
+    function () {
+
+        // Оставляем только невыполненные задачи.
+        tasks = tasks.filter(
+            function (task) {
+                return !task.completed;
+            }
+        );
+
+        // Сохраняем изменения.
+        saveTasks();
+
+        // Перерисовываем список.
+        renderTasks();
+    }
+);
