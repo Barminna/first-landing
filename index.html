@@ -85,7 +85,7 @@
 
 
 
-    <section class="features" id="features">
+<section class="features" id="features">
     <div class="container">
         <div class="section-heading">
             <p class="section-label">Возможности</p>
@@ -190,6 +190,46 @@
     </div>
 </section>
 
+<section class="todo-section">
+    <div class="container">
+        <div class="section-heading">
+            <p class="section-label">Мини-приложение</p>
+
+            <h2>Список задач</h2>
+
+            <p>
+                Добавляй задачи, отмечай выполненные
+                и удаляй ненужные.
+            </p>
+        </div>
+
+        <form class="todo-form" id="todoForm">
+            <input
+                type="text"
+                id="taskInput"
+                placeholder="Введите новую задачу"
+                autocomplete="off"
+            >
+
+            <button type="submit">
+                Добавить
+            </button>
+            
+            
+        </form>
+
+        <button
+           class="filter-button"
+            id="clearCompletedButton"
+           type="button"
+            >
+             Очистить выполненные
+        </button>
+        
+        <p class="todo-counter" id="todoCounter"></p>
+        <ul class="todo-list" id="todoList"></ul>
+    </div>
+</section>
 
 
     <script src="script.js"></script>

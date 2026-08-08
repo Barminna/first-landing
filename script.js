@@ -1,6 +1,13 @@
 const button = document.querySelector('#demoButton');
 const message = document.querySelector('#demoMessage');
 const toolsGrid = document.querySelector('#toolsGrid');
+const todoForm =  document.querySelector('#todoForm');
+const taskInput =  document.querySelector('#taskInput');
+const todoList = document.querySelector('#todoList');
+const todoCounter =
+    document.querySelector('#todoCounter');
+const clearCompletedButton =
+    document.querySelector('#clearCompletedButton');
 
 
 
@@ -21,6 +28,8 @@ const calculatorResult =
     document.querySelector('#calculatorResult');
 const automationRate = 0.4;
 
+
+// Калькулятор экономии времени
 function calculateSavedTime(hours) {
     const savedPerWeek = hours * automationRate;
     const savedPerMonth = savedPerWeek * 4;
@@ -44,7 +53,7 @@ calculateButton.addEventListener('click', function () {
         `Примерная экономия: ${result.toFixed(1)} часов в месяц`;
 });
 
-
+// массив
 const tools = [
     {
         title: 'ChatGPT',
@@ -97,7 +106,7 @@ const tools = [
 ];
 
 
-
+// карточки по массиву
 function renderTools(items) {
     toolsGrid.innerHTML = '';
 
@@ -139,6 +148,7 @@ const filterButtons =
     item.classList.remove('active');
 });
 
+// выбор по категории в массиве
 button.classList.add('active');
         if (category === 'Все') {
             renderTools(tools);
@@ -152,3 +162,133 @@ button.classList.add('active');
         }
     });
 });
+
+
+// приложение список задач
+const savedTasks =
+    localStorage.getItem('tasks');
+
+let tasks =
+    savedTasks
+        ? JSON.parse(savedTasks)
+        : [];  //пустой массив
+
+function renderTasks() {
+    todoList.innerHTML = '';
+
+    tasks.forEach(function (task) {
+        const item =
+            document.createElement('li');
+
+        item.classList.add('todo-item');
+            if (task.completed) {
+                item.classList.add('completed');
+            }
+
+
+        item.innerHTML = `
+    <input
+        type="checkbox"
+        class="todo-item__checkbox"
+        ${task.completed ? 'checked' : ''}
+    >
+
+    <span class="todo-item__text">
+        ${task.text}
+    </span>
+
+    
+
+    <button
+        class="todo-item__delete"
+        type="button"
+    >
+        Удалить
+    </button>
+`;
+
+
+//меняет ложь на истину
+const checkbox =
+    item.querySelector('.todo-item__checkbox');
+
+checkbox.addEventListener('change', function () {
+    task.completed = checkbox.checked;
+    saveTasks();
+    renderTasks();
+});
+
+//добавляем удаление
+const deleteButton =
+    item.querySelector('.todo-item__delete');
+
+    deleteButton.addEventListener('click', function () {
+    tasks = tasks.filter(function (item) {
+        return item.id !== task.id;
+    });
+    saveTasks();
+    renderTasks();
+});
+        todoList.append(item);
+    });
+}
+
+renderTasks();
+
+clearCompletedButton.addEventListener('click', function () {
+    tasks = tasks.filter(function (task) {
+        return !task.completed;
+    });
+
+    saveTasks();
+    renderTasks();
+});
+
+const completedCount =
+    tasks.filter(function (task) {
+        return task.completed;
+    }).length;
+
+//дз кнопка
+
+    saveTasks();
+    renderTasks();
+});
+        todoList.append(item);
+    });
+
+
+todoCounter.textContent =
+    `Всего задач: ${tasks.length}. Выполнено: ${completedCount}.`;
+
+//отправка формы
+todoForm.addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    const text = taskInput.value.trim();
+
+    if (text === '') {
+        return;
+    }
+
+    const newTask = {
+        id: Date.now(),
+        text: text,
+        completed: false
+    };
+
+    tasks.push(newTask);
+        saveTasks();
+        renderTasks();
+
+    taskInput.value = '';
+});
+
+
+//функция сохранения из браузера
+function saveTasks() {
+    localStorage.setItem(
+        'tasks',
+        JSON.stringify(tasks)
+    );
+}
