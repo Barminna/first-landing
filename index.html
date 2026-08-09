@@ -231,6 +231,65 @@
     </div>
 </section>
 
+<!-- ================================= -->
+<!-- ДАННЫЕ ИЗ API -->
+<!-- ================================= -->
+
+<section class="api-section">
+    <div class="container">
+
+        <div class="section-heading">
+            <p class="section-label">API</p>
+
+            <h2>Данные с внешнего сервера</h2>
+
+            <p>
+                Эти карточки загружаются через JavaScript
+                из внешнего API.
+            </p>
+        </div>
+
+
+
+
+
+
+        <!-- Кнопка запуска загрузки -->
+        <button
+            class="api-load-button"
+            id="loadPostsButton"
+            type="button"
+        >
+            Загрузить публикации
+        </button>
+<p></p>
+
+        <!-- выбор кол-ва публикаций -->
+<select id="postsCount">
+    <option value="3">3 публикации</option>
+    <option value="6" selected>6 публикаций</option>
+    <option value="10">10 публикаций</option>
+</select>
+        <!-- Здесь будем показывать состояние:
+             загрузка, ошибка и т. д. -->
+        <p
+            class="api-status"
+            id="apiStatus"
+        ></p>
+
+
+        <!-- Пустой контейнер.
+             JavaScript сам добавит сюда карточки. -->
+        <div
+            class="api-grid"
+            id="apiGrid"
+            
+        ></div>
+
+    </div>
+</section>
+
+
 
     <script src="script.js"></script>
 </body>

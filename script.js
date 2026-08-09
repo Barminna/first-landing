@@ -404,3 +404,262 @@ clearCompletedButton.addEventListener(
         renderTasks();
     }
 );
+
+
+
+// =================================
+// ДАННЫЕ ИЗ ВНЕШНЕГО API
+// =================================
+
+
+// Кнопка, которая запускает запрос.
+const loadPostsButton =
+    document.querySelector(
+        '#loadPostsButton'
+    );
+
+
+// Элемент для сообщений:
+// "Загрузка...", "Ошибка" и т. д.
+const apiStatus =
+    document.querySelector(
+        '#apiStatus'
+    );
+
+
+// Контейнер, куда будем
+// добавлять карточки.
+const apiGrid =
+    document.querySelector(
+        '#apiGrid'
+    );
+   
+   
+  const postsCount =
+    document.querySelector(
+        '#postsCount'
+    ); 
+
+const count =
+    Number(postsCount.value);
+
+ // =================================
+// ЗАГРУЗКА ПУБЛИКАЦИЙ
+// =================================
+
+
+// async означает:
+// внутри этой функции мы можем
+// использовать await.
+async function loadPosts() {
+
+    console.log(
+        'Начинаем загрузку'
+    );
+}
+async function loadPosts() {
+
+    // Отправляем HTTP-запрос.
+    //
+    // await означает:
+    // дождаться результата fetch()
+    // и только потом продолжать.
+    const response = await fetch(
+        'https://jsonplaceholder.typicode.com/posts'
+    );
+    // Преобразуем тело ответа
+    // из JSON в JavaScript-данные.
+    const posts =
+        await response.json();
+
+    // Берём только первые 6 элементов массива.
+    const firstPosts =
+        posts.slice(0, count );
+
+    console.log(firstPosts);
+    // Посмотрим, что получилось.
+
+    console.log(response);
+
+}
+
+ // =================================
+// ОТОБРАЖЕНИЕ ПУБЛИКАЦИЙ
+// =================================
+
+function renderPosts(posts) {
+
+    // Перед новой отрисовкой
+    // очищаем старые карточки.
+    apiGrid.innerHTML = '';
+
+
+    // Перебираем массив публикаций.
+    posts.forEach(function (post) {
+
+        // Создаём карточку.
+        const card =
+            document.createElement(
+                'article'
+            );
+
+
+        // Добавляем CSS-класс.
+        card.classList.add(
+            'api-card'
+        );
+
+
+        // Заполняем карточку
+        // данными конкретного объекта.
+        card.innerHTML = `
+            <span class="api-card__number">
+                Публикация №${post.id}
+            </span>
+
+            <h3>
+                ${post.title}
+            </h3>
+
+            <p>
+                ${post.body}
+            </p>
+            <h4>
+                ${post.userId}
+            </h4>
+
+        `;
+
+
+        // Добавляем карточку
+        // на страницу.
+        apiGrid.append(card);
+    });
+}
+
+// =================================
+// ЗАПУСК ЗАГРУЗКИ ПО КЛИКУ
+// =================================
+
+loadPostsButton.addEventListener(
+    'click',
+    function () {
+
+        // Вызываем асинхронную функцию.
+        loadPosts();
+        
+
+
+
+    }
+);
+
+
+// =================================
+// ЗАГРУЗКА ДАННЫХ С ОБРАБОТКОЙ ОШИБОК
+// =================================
+
+async function loadPosts() {
+
+    // -----------------------------
+    // СОСТОЯНИЕ "ЗАГРУЗКА"
+    // -----------------------------
+
+    // Показываем пользователю,
+    // что процесс начался.
+    apiStatus.textContent =
+        'Загрузка публикаций...';
+
+
+    // На время запроса
+    // отключаем кнопку,
+    // чтобы пользователь
+    // не нажал её 20 раз подряд.
+    loadPostsButton.disabled = true;
+    loadPostsButton.textContent =
+    'Загрузка...';
+
+    try {
+
+        // -------------------------
+        // HTTP-ЗАПРОС
+        // -------------------------
+
+        const response = await fetch(
+            'https://jsonplaceholder.typicode.com/posts'
+            //'https://jsonplaceholder.typicode.com/abracadabra'
+            //ощибка
+        );
+
+
+        // -------------------------
+        // ПРОВЕРЯЕМ HTTP-СТАТУС
+        // -------------------------
+
+        // fetch сам по себе не обязан
+        // выбрасывать ошибку только потому,
+        // что сервер вернул, например, 404.
+        //
+        // Поэтому статус ответа
+        // проверяем отдельно.
+        if (!response.ok) {
+
+            throw new Error(
+                `Ошибка сервера: ${response.status}`
+            );
+        }
+
+
+        // -------------------------
+        // ЧИТАЕМ JSON
+        // -------------------------
+
+        const posts =
+            await response.json();
+
+
+        // Оставляем первые 6 (count вместо 6).
+        const firstPosts =
+            posts.slice(0, count );
+
+
+        // Показываем карточки.
+        renderPosts(firstPosts);
+
+
+        // Сообщаем об успехе.
+        apiStatus.textContent =
+            'Публикации загружены.';
+
+
+    } catch (error) {
+
+        // -------------------------
+        // ЕСЛИ ЧТО-ТО ПОШЛО НЕ ТАК
+        // -------------------------
+
+        console.error(error);
+
+
+        // Показываем понятное
+        // сообщение пользователю.
+        apiStatus.textContent =
+            'Не удалось загрузить данные.';
+
+
+    } finally {
+
+        // -------------------------
+        // ВЫПОЛНЯЕТСЯ В ЛЮБОМ СЛУЧАЕ
+        // -------------------------
+
+        // Запрос завершён:
+        // успешный или с ошибкой.
+        //
+        // Поэтому снова разрешаем
+        // нажимать кнопку.
+        loadPostsButton.disabled = false;
+        loadPostsButton.textContent =
+    'Обновить публикации';
+    }
+}

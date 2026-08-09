@@ -557,3 +557,116 @@ h1 {
         padding: 32px 24px;
     }
 }
+/* ================================= */
+/* ДАННЫЕ ИЗ API */
+/* ================================= */
+
+.api-section {
+    padding: 100px 0;
+}
+
+
+/* Кнопка загрузки */
+
+.api-load-button {
+    padding: 14px 22px;
+
+    border: 0;
+    border-radius: 10px;
+
+    color: #ffffff;
+    background-color: var(--color-accent);
+
+    font: inherit;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        opacity 0.2s ease;
+}
+
+
+.api-load-button:hover {
+    background-color:
+        var(--color-accent-hover);
+}
+
+
+/* Состояние disabled:
+   кнопка временно неактивна */
+
+.api-load-button:disabled {
+    opacity: 0.6;
+
+    cursor: not-allowed;
+}
+
+
+/* Текст состояния */
+
+.api-status {
+    min-height: 24px;
+
+    margin: 20px 0;
+
+    color: var(--color-muted);
+}
+
+
+/* Сетка карточек */
+
+.api-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(240px, 1fr)
+        );
+
+    gap: 20px;
+}
+
+
+/* Одна публикация */
+
+.api-card {
+    padding: 26px;
+
+    background-color:
+        var(--color-surface);
+
+    border-radius:
+        var(--border-radius);
+}
+
+
+.api-card__number {
+    display: block;
+
+    margin-bottom: 16px;
+
+    color: var(--color-accent);
+
+    font-size: 13px;
+    font-weight: 700;
+}
+
+
+.api-card h3 {
+    margin: 0 0 14px;
+
+    font-size: 21px;
+    line-height: 1.3;
+}
+
+
+.api-card p {
+    margin: 0;
+
+    color: var(--color-muted);
+
+    line-height: 1.6;
+}
