@@ -440,8 +440,7 @@ const apiGrid =
         '#postsCount'
     ); 
 
-const count =
-    Number(postsCount.value);
+
 
  // =================================
 // ЗАГРУЗКА ПУБЛИКАЦИЙ
@@ -451,37 +450,7 @@ const count =
 // async означает:
 // внутри этой функции мы можем
 // использовать await.
-async function loadPosts() {
 
-    console.log(
-        'Начинаем загрузку'
-    );
-}
-async function loadPosts() {
-
-    // Отправляем HTTP-запрос.
-    //
-    // await означает:
-    // дождаться результата fetch()
-    // и только потом продолжать.
-    const response = await fetch(
-        'https://jsonplaceholder.typicode.com/posts'
-    );
-    // Преобразуем тело ответа
-    // из JSON в JavaScript-данные.
-    const posts =
-        await response.json();
-
-    // Берём только первые 6 элементов массива.
-    const firstPosts =
-        posts.slice(0, count );
-
-    console.log(firstPosts);
-    // Посмотрим, что получилось.
-
-    console.log(response);
-
-}
 
  // =================================
 // ОТОБРАЖЕНИЕ ПУБЛИКАЦИЙ
@@ -525,7 +494,7 @@ function renderPosts(posts) {
                 ${post.body}
             </p>
             <h4>
-                ${post.userId}
+               Автор ID: ${post.userId}
             </h4>
 
         `;
@@ -560,6 +529,34 @@ loadPostsButton.addEventListener(
 // =================================
 
 async function loadPosts() {
+    console.log(
+        'Начинаем загрузку'
+    );
+
+const count =
+    Number(postsCount.value);
+
+    // Отправляем HTTP-запрос.
+    //
+    // await означает:
+    // дождаться результата fetch()
+    // и только потом продолжать.
+    const response = await fetch(
+        'https://jsonplaceholder.typicode.com/posts'
+    );
+    // Преобразуем тело ответа
+    // из JSON в JavaScript-данные.
+    const posts =
+        await response.json();
+
+    // Берём только первые 6 элементов массива.
+    const firstPosts =
+        posts.slice(0, count );
+
+    console.log(firstPosts);
+    // Посмотрим, что получилось.
+
+    console.log(response);
 
     // -----------------------------
     // СОСТОЯНИЕ "ЗАГРУЗКА"
