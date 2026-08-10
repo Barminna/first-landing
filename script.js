@@ -882,13 +882,7 @@ function renderPosts(posts, users) {
                 );
             });
 
-         const email =
-            users.find(function (user) {
-
-                return (
-                    email.id === post.emailId
-                );
-            });   
+          
 
 
         // ----------------------------------------------------
@@ -927,6 +921,16 @@ function renderPosts(posts, users) {
                 ? author.name
                 : 'Неизвестный автор';
 
+        // Если автор найден,
+        // берём его email.
+        //
+        // Если автора по какой-то причине нет,
+        // показываем запасной текст.
+        const authorEmail =
+            author
+                ? author.email
+                : 'Email неизвестен';
+
 
         // ----------------------------------------------------
         // ЗАПОЛНЯЕМ КАРТОЧКУ
@@ -950,8 +954,8 @@ function renderPosts(posts, users) {
                 ${authorName}
             </p>
             <p>
-                <strong>email:</strong>
-                ${authorName}
+                <strong>Email:</strong>
+                ${authorEmail}
             </p>
         `;
 
@@ -1042,8 +1046,7 @@ async function loadPosts() {
 
         const [
             postsResponse,
-            usersResponse,
-            emailResponse
+            usersResponse            
         ] = await Promise.all([
 
             fetch(
@@ -1052,11 +1055,9 @@ async function loadPosts() {
 
             fetch(
                 'https://jsonplaceholder.typicode.com/users'
-            ),
-
-            fetch(
-                'https://jsonplaceholder.typicode.com/emails'
             )
+
+            
         ]);
 
 
@@ -1080,12 +1081,7 @@ async function loadPosts() {
             );
         }
 
-        if (!emailResponse.ok) {
-
-            throw new Error(
-                `Ошибка загрузки email: ${emailResponse.status}`
-            );
-        }
+        
 
 
 
@@ -1101,15 +1097,15 @@ async function loadPosts() {
 
         const [
             posts,
-            users,
-            email
+            users
+            
         ] = await Promise.all([
 
             postsResponse.json(),
 
-            usersResponse.json(),
+            usersResponse.json()
             
-            emailResponse.json(),
+            
         ]);
 
 
