@@ -839,6 +839,12 @@ const apiGrid =
 
 function renderPosts(posts, users) {
 
+
+    console.log(
+    'renderPosts получил:',
+    posts,
+    users
+    );
     // Перед новой отрисовкой
     // удаляем старые карточки.
     apiGrid.innerHTML = '';
@@ -880,7 +886,14 @@ function renderPosts(posts, users) {
                 );
             });
 
-          
+          console.log(
+                'Пост:',
+                post.id,
+                'userId:',
+                post.userId,
+                'Найден автор:',
+                author
+            );
 
 
         // ----------------------------------------------------
@@ -933,7 +946,7 @@ function renderPosts(posts, users) {
         const authorCompany =
             author
                 ? author.company.name
-                : 'Company неизвестен';
+                : 'Компания неизвестен';
 
 
         // ----------------------------------------------------
@@ -963,7 +976,7 @@ function renderPosts(posts, users) {
             </p>
 
             <p>
-                <strong>Company:</strong>
+                <strong>Компания:</strong>
                 ${authorCompany}
             </p>
         `;
@@ -1152,6 +1165,7 @@ async function loadPosts() {
         // данные и публикаций, и авторов.
 
         renderPosts(
+            
             firstPosts,
             users
         );
