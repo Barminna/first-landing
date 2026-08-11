@@ -1202,8 +1202,7 @@ async function loadPosts() {
         // СООБЩЕНИЕ ОБ УСПЕХЕ
         // ----------------------------------------------------
 
-        apiStatus.textContent =
-            `Загружено публикаций: ${firstPosts.length}`;
+        
 
 
     } catch (error) {
@@ -1365,47 +1364,27 @@ function applyPostFilters() {
                         post.title
                             .toLowerCase();
 
-
-                    // includes() проверяет,
-                    // встречается ли искомый текст
-                    // внутри строки.
-                    return title.includes(
-                        searchText
-                    );
-                }
-            );
-    }
-
- // Поиск по тексту ДЗ
-   const searchBody =
-        postSearchBody.value
-            .trim()
-            .toLowerCase();
-
-
-    // Если пользователь что-то ввёл,
-    // фильтруем публикации.
-    if (searchBody !== '') {
-
-        result =
-            result.filter(
-                function (post) {
-
-                    // Заголовок тоже приводим
-                    // к нижнему регистру.
+                    // Текст самой публикации.
+                    // Тоже переводим в нижний регистр,
+                    // чтобы поиск не зависел от регистра букв.
                     const body =
-                        post.body.toLowerCase();
+                        post.body
+                            .toLowerCase();    
 
 
                     // includes() проверяет,
                     // встречается ли искомый текст
-                    // внутри строки.
-                    return body.includes(
-                        searchText
+                    // либо в заголовке,
+                    // либо в основном тексте
+                    return (
+                        title.includes(searchText) ||
+                        body.includes(searchText)
                     );
                 }
             );
     }
+
+ 
 
     // --------------------------------
     // ФИЛЬТР ПО АВТОРУ
