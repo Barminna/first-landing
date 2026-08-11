@@ -1384,7 +1384,10 @@ function applyPostFilters() {
             );
     }
 
- 
+    if (result.length === 0) {
+        apiStatus.textContent =
+    'Ничего не найдено';
+    }
 
     // --------------------------------
     // ФИЛЬТР ПО АВТОРУ
