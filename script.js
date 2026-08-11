@@ -820,7 +820,30 @@ const apiGrid =
     );
 
 
+    // =================================
+    // ЭЛЕМЕНТЫ ПОИСКА И ФИЛЬТРАЦИИ
+    // =================================
 
+
+    // Поле поиска по заголовку публикации.
+    const postSearch =
+        document.querySelector(
+            '#postSearch'
+        );
+
+
+    // Выпадающий список авторов.
+    const authorFilter =
+        document.querySelector(
+            '#authorFilter'
+        );
+
+
+    // Выпадающий список сортировки.
+    const postSort =
+        document.querySelector(
+            '#postSort'
+        );
 
     
 // ============================================================
@@ -946,7 +969,7 @@ function renderPosts(posts, users) {
         const authorCompany =
             author
                 ? author.company.name
-                : 'Компания неизвестен';
+                : 'Компания неизвестна';
 
 
         // ----------------------------------------------------
@@ -989,7 +1012,18 @@ function renderPosts(posts, users) {
 }
 
 
+// =================================
+// ХРАНИЛИЩЕ ЗАГРУЖЕННЫХ ДАННЫХ
+// =================================
 
+
+// Сюда сохраним публикации,
+// полученные с сервера.
+let loadedPosts = [];
+
+
+// Сюда сохраним пользователей.
+let loadedUsers = [];
 
 
 // ============================================================
@@ -1037,9 +1071,7 @@ async function loadPosts() {
         // ПОЛУЧАЕМ КОЛИЧЕСТВО ПУБЛИКАЦИЙ
         // ----------------------------------------------------
 
-        const count =
-            Number(postsCount.value);
-
+        
 
 
         // ----------------------------------------------------
@@ -1124,28 +1156,26 @@ async function loadPosts() {
             
         ]);
 
+        // Сохраняем данные,
+        // чтобы потом использовать их
+        // для поиска, фильтрации и сортировки.
+        loadedPosts = posts;
+        loadedUsers = users; 
 
+           
+            renderAuthorOptions(
+                loadedUsers
+            );
+
+            // Применяем текущие настройки интерфейса
+            // и показываем публикации.
+            applyPostFilters();
 
         // ----------------------------------------------------
         // ОГРАНИЧИВАЕМ КОЛИЧЕСТВО ПОСТОВ
         // ----------------------------------------------------
 
-        const firstPosts =
-            posts.slice(
-                0,
-                count
-            );
-
-
-            console.log(
-                'Публикации:',
-                firstPosts
-            );
-
-            console.log(
-                'Пользователи:',
-                users
-            );
+        
 
 
 
@@ -1164,11 +1194,7 @@ async function loadPosts() {
         // Потому что функции нужны
         // данные и публикаций, и авторов.
 
-        renderPosts(
-            
-            firstPosts,
-            users
-        );
+        
 
 
 
@@ -1206,6 +1232,286 @@ async function loadPosts() {
             'Обновить публикации';
     }
 }
+
+// =================================
+// СОБЫТИЯ ФИЛЬТРОВ
+// =================================
+
+
+// Поиск срабатывает
+// при каждом изменении текста.
+postSearch.addEventListener(
+    'input',
+    function () {
+
+        applyPostFilters();
+    }
+);
+
+
+// Фильтр автора.
+authorFilter.addEventListener(
+    'change',
+    function () {
+
+        applyPostFilters();
+    }
+);
+
+
+// Сортировка.
+postSort.addEventListener(
+    'change',
+    function () {
+
+        applyPostFilters();
+    }
+);
+
+
+// Изменение количества карточек.
+postsCount.addEventListener(
+    'change',
+    function () {
+
+        applyPostFilters();
+    }
+);
+
+
+// =================================
+// ЗАПОЛНЕНИЕ ФИЛЬТРА АВТОРОВ
+// =================================
+
+function renderAuthorOptions(users) {
+
+    // Сначала оставляем только
+    // базовый вариант "Все авторы".
+    authorFilter.innerHTML = `
+        <option value="all">
+            Все авторы
+        </option>
+    `;
+
+
+    // Перебираем пользователей.
+    users.forEach(function (user) {
+
+        // Создаём новый option.
+        const option =
+            document.createElement(
+                'option'
+            );
+
+
+        // В value сохраняем id автора.
+        option.value =
+            user.id;
+
+
+        // Пользователь видит имя.
+        option.textContent =
+            user.name;
+
+
+        // Добавляем option в select.
+        authorFilter.append(option);
+    });
+}
+
+
+// =================================
+// ПОИСК, ФИЛЬТРАЦИЯ И СОРТИРОВКА
+// =================================
+
+function applyPostFilters() {
+
+    // Начинаем с копии массива.
+    //
+    // [...loadedPosts]
+    // создаёт новый массив,
+    // чтобы не изменять исходные данные.
+    let result =
+        [...loadedPosts];
+
+
+    // --------------------------------
+    // ПОИСК
+    // --------------------------------
+
+    // Берём текст из поля поиска.
+    //
+    // trim() убирает лишние пробелы.
+    //
+    // toLowerCase() приводит всё
+    // к нижнему регистру.
+    const searchText =
+        postSearch.value
+            .trim()
+            .toLowerCase();
+
+
+    // Если пользователь что-то ввёл,
+    // фильтруем публикации.
+    if (searchText !== '') {
+
+        result =
+            result.filter(
+                function (post) {
+
+                    // Заголовок тоже приводим
+                    // к нижнему регистру.
+                    const title =
+                        post.title
+                            .toLowerCase();
+
+
+                    // includes() проверяет,
+                    // встречается ли искомый текст
+                    // внутри строки.
+                    return title.includes(
+                        searchText
+                    );
+                }
+            );
+    }
+
+ // Поиск по тексту ДЗ
+   const searchBody =
+        postSearchBody.value
+            .trim()
+            .toLowerCase();
+
+
+    // Если пользователь что-то ввёл,
+    // фильтруем публикации.
+    if (searchBody !== '') {
+
+        result =
+            result.filter(
+                function (post) {
+
+                    // Заголовок тоже приводим
+                    // к нижнему регистру.
+                    const body =
+                        post.body.toLowerCase();
+
+
+                    // includes() проверяет,
+                    // встречается ли искомый текст
+                    // внутри строки.
+                    return body.includes(
+                        searchText
+                    );
+                }
+            );
+    }
+
+    // --------------------------------
+    // ФИЛЬТР ПО АВТОРУ
+    // --------------------------------
+
+    const selectedAuthor =
+        authorFilter.value;
+
+
+    // Если выбрали конкретного автора.
+    if (selectedAuthor !== 'all') {
+
+        // Значение select приходит строкой,
+        // а post.userId — число.
+        //
+        // Поэтому используем Number().
+        const authorId =
+            Number(selectedAuthor);
+
+
+        result =
+            result.filter(
+                function (post) {
+
+                    return (
+                        post.userId ===
+                        authorId
+                    );
+                }
+            );
+    }
+
+
+    // --------------------------------
+    // СОРТИРОВКА
+    // --------------------------------
+
+    const sortValue =
+        postSort.value;
+
+
+    // От меньшего id к большему.
+    if (sortValue === 'id-asc') {
+
+        result.sort(
+            function (a, b) {
+
+                return a.id - b.id;
+            }
+        );
+    }
+
+
+    // От большего id к меньшему.
+    if (sortValue === 'id-desc') {
+
+        result.sort(
+            function (a, b) {
+
+                return b.id - a.id;
+            }
+        );
+    }
+
+
+    // --------------------------------
+    // КОЛИЧЕСТВО
+    // --------------------------------
+
+    const count =
+        Number(postsCount.value);
+
+
+    // После всех фильтров
+    // ограничиваем количество карточек.
+    const visiblePosts =
+        result.slice(
+            0,
+            count
+        );
+
+
+    // --------------------------------
+    // ОТРИСОВКА
+    // --------------------------------
+
+    renderPosts(
+        visiblePosts,
+        loadedUsers
+    );
+
+
+    // --------------------------------
+    // СТАТУС
+    // --------------------------------
+
+    apiStatus.textContent =
+        `Найдено публикаций: ${result.length}. Показано: ${visiblePosts.length}.`;
+}
+
+
+
+
+
+
+
 
 
 

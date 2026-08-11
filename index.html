@@ -263,13 +263,64 @@
             Загрузить публикации
         </button>
 <br>
+<div class="api-controls">
 
-        <!-- выбор кол-ва публикаций -->
-<select id="postsCount">
-    <option value="3">3 публикации</option>
-    <option value="6" selected>6 публикаций</option>
-    <option value="10">10 публикаций</option>
-</select>
+    <input
+        type="text"
+        id="postSearch"
+        placeholder="Поиск по заголовку"
+    >
+
+    <input
+        type="text"
+        id="postSearchBody"
+        placeholder="Поиск по тексту публикации"
+    >
+
+    <select id="authorFilter">
+        <option value="author-asc">
+            Автор А–Я
+        </option>
+
+        <option value="author-desc">
+            Автор Я–А
+        </option>
+    </select>
+
+
+<select id="authorFilter1">
+        <option value="all">
+            Все авторы
+        </option>
+    </select>
+
+    
+    <select id="postSort">
+        <option value="default">
+            Без сортировки
+        </option>
+
+        <option value="id-asc">
+            По номеру ↑
+        </option>
+
+        <option value="id-desc">
+            По номеру ↓
+        </option>
+    </select>
+
+</div>
+       
+<!-- выбор кол-ва публикаций -->
+ <div class="api-controls">
+    <select id="postsCount">
+        <option value="3">3 публикации</option>
+        <option value="6" selected>6 публикаций</option>
+        <option value="10">10 публикаций</option>
+        <option value="16">16 публикаций</option>
+    </select>
+</div>
+
         <!-- Здесь будем показывать состояние:
              загрузка, ошибка и т. д. -->
         <p

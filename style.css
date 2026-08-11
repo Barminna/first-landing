@@ -670,3 +670,26 @@ h1 {
 
     line-height: 1.6;
 }
+
+/* =================================
+   УПРАВЛЕНИЕ API-КАРТОЧКАМИ
+   ================================= */
+
+.api-controls {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 20px 0;
+}
+
+.api-controls input,
+.api-controls select {
+    padding: 10px 12px;
+    font: inherit;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.api-controls input {
+    min-width: 220px;
+}
