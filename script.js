@@ -1384,9 +1384,7 @@ function applyPostFilters() {
             );
     }
 
-    if (result.length === 0) {
-        apiStatus.textContent =
-    'Ничего не найдено';
+    
     }
 
     // --------------------------------
@@ -1484,8 +1482,20 @@ function applyPostFilters() {
     // СТАТУС
     // --------------------------------
 
-    apiStatus.textContent =
-        `Найдено публикаций: ${result.length}. Показано: ${visiblePosts.length}.`;
+   // Если после всех фильтров
+        // в массиве ничего не осталось...
+        if (result.length === 0) {
+
+            apiStatus.textContent =
+                'Ничего не найдено.';
+
+        } else {
+
+            // ИНАЧЕ публикации есть —
+            // показываем обычную статистику.
+            apiStatus.textContent =
+                `Найдено публикаций: ${result.length}. Показано: ${visiblePosts.length}.`;
+        }
 }
 
 
