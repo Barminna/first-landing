@@ -691,5 +691,6 @@ h1 {
 }
 
 .api-controls input {
-    min-width: 220px;
+    min-width: 300px;
+    flex: 1;
 }

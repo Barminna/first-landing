@@ -831,6 +831,12 @@ const apiGrid =
             '#postSearch'
         );
 
+    // Поле отдельного поиска
+    // по основному тексту публикации.
+    const postSearchBody =
+        document.querySelector(
+            '#postSearchBody'
+        );
 
     // Выпадающий список авторов.
     const authorFilter =
@@ -1247,6 +1253,18 @@ postSearch.addEventListener(
     }
 );
 
+// Когда пользователь печатает
+// во втором поле поиска,
+// тоже запускаем фильтрацию.
+postSearchBody.addEventListener(
+    'input',
+    function () {
+
+        applyPostFilters();
+    }
+);
+
+
 
 // Фильтр автора.
 authorFilter.addEventListener(
@@ -1349,6 +1367,15 @@ function applyPostFilters() {
             .trim()
             .toLowerCase();
 
+    // Получаем текст из второго поля поиска.
+    // trim() убирает пробелы по краям.
+    // toLowerCase() убирает зависимость
+    // поиска от регистра букв.
+    const searchBodyText =
+        postSearchBody.value
+            .trim()
+            .toLowerCase();
+
 
     // Если пользователь что-то ввёл,
     // фильтруем публикации.
@@ -1376,16 +1403,43 @@ function applyPostFilters() {
                     // встречается ли искомый текст
                     // либо в заголовке,
                     // либо в основном тексте
-                    return (
-                        title.includes(searchText) ||
-                        body.includes(searchText)
+                    return title.includes(
+                        searchText
                     );
                 }
             );
     }
 
-    
+    // =================================
+    // ПОИСК ПО ТЕКСТУ ПУБЛИКАЦИИ
+    // =================================
+
+    // Если второе поле НЕ пустое,
+    // дополнительно фильтруем результат
+    // по свойству post.body.
+    if (searchBodyText !== '') {
+
+        result =
+            result.filter(
+                function (post) {
+
+                    // Получаем основной текст публикации
+                    // и переводим его в нижний регистр.
+                    const body =
+                        post.body
+                            .toLowerCase();
+
+
+                    // Оставляем публикацию только тогда,
+                    // когда в её тексте найдено
+                    // содержимое второго поля поиска.
+                    return body.includes(
+                        searchBodyText
+                    );
+                }
+            );
     }
+    
 
     // --------------------------------
     // ФИЛЬТР ПО АВТОРУ

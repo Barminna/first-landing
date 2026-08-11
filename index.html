@@ -265,11 +265,20 @@
 <br>
 <div class="api-controls">
 
+        <!-- =================================
+        ПОИСК ПО ЗАГОЛОВКУ
+        ================================= -->
+
     <input
         type="text"
         id="postSearch"
         placeholder="Поиск по заголовку"
     >
+
+
+    <!-- =================================
+        ПОИСК ПО ТЕКСТУ ПУБЛИКАЦИИ
+        ================================= -->
 
     <input
         type="text"
@@ -277,25 +286,31 @@
         placeholder="Поиск по тексту публикации"
     >
 
+
+    <!-- =================================
+        ФИЛЬТР ПО КОНКРЕТНОМУ АВТОРУ
+        ================================= -->
+
     <select id="authorFilter">
-        <option value="author-asc">
-            Автор А–Я
-        </option>
 
-        <option value="author-desc">
-            Автор Я–А
-        </option>
-    </select>
-
-
-<select id="authorFilter1">
         <option value="all">
             Все авторы
         </option>
+
+        <!--
+            Остальные авторы сюда
+            добавит JavaScript после загрузки API.
+        -->
+
     </select>
 
-    
+
+    <!-- =================================
+        СОРТИРОВКА
+        ================================= -->
+
     <select id="postSort">
+
         <option value="default">
             Без сортировки
         </option>
@@ -307,6 +322,15 @@
         <option value="id-desc">
             По номеру ↓
         </option>
+
+        <option value="author-asc">
+            Автор А–Я
+        </option>
+
+        <option value="author-desc">
+            Автор Я–А
+        </option>
+
     </select>
 
 </div>
