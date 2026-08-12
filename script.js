@@ -939,7 +939,7 @@ function renderPosts(posts, users) {
             'api-card'
         );
 
-
+       
         // ----------------------------------------------------
         // ИМЯ АВТОРА
         // ----------------------------------------------------
@@ -952,30 +952,46 @@ function renderPosts(posts, users) {
         //
         // Поэтому используем проверку:
         //
-        // author ? author.name : 'Неизвестный автор'
-        //
-        // Это называется тернарный оператор.
-
-        const authorName =
-            author
-                ? author.name
-                : 'Неизвестный автор';
+        // =================================
+        // ДЕСТРУКТУРИЗАЦИЯ ДАННЫХ АВТОРА
+        // =================================
 
         // Если автор найден,
-        // берём его email.
+        // используем его объект.
         //
-        // Если автора по какой-то причине нет,
-        // показываем запасной текст.
-        const authorEmail =
-            author
-                ? author.email
-                : 'Email неизвестен';
+        // Если автора нет,
+        // используем запасной объект,
+        // чтобы код не упал.
+        const safeAuthor =
+            author || {
+                name: 'Неизвестный автор',
+                email: 'Email неизвестен'
+            };
 
+
+        // =================================
+        // ВЛОЖЕННАЯ ДЕСТРУКТУРИЗАЦИЯ
+        // =================================
+        //
+        // name и email лежат прямо в объекте автора.
+        //
+        //  Название компании получаем отдельно.
+        //
+        // ?. безопасно проверяет:
+        // существует ли company.
+        //
+        // ?? подставляет запасной текст,
+        // если company.name оказался
+        // undefined или null.
+        const {
+            name: authorName,
+            email: authorEmail,
+           
+        } = safeAuthor;
 
         const authorCompany =
-            author
-                ? author.company.name
-                : 'Компания неизвестна';
+            safeAuthor.company?.name
+            ?? 'Компания неизвестна';
 
 
         // ----------------------------------------------------
@@ -1154,9 +1170,7 @@ async function loadPosts() {
             users
             
         ] = await Promise.all([
-
             postsResponse.json(),
-
             usersResponse.json()
             
             
@@ -1169,6 +1183,12 @@ async function loadPosts() {
         loadedUsers = users; 
 
            
+
+
+
+
+
+        
             renderAuthorOptions(
                 loadedUsers
             );
@@ -1276,10 +1296,22 @@ authorFilter.addEventListener(
 );
 
 
-// Сортировка.
+// =================================
+// ИЗМЕНЕНИЕ СОРТИРОВКИ
+// =================================
+//
+// Вместо обычной анонимной функции
+// используем стрелочную функцию.
+//
+// function () { ... }
+//
+// заменяется на:
+//
+// () => { ... }
+
 postSort.addEventListener(
     'change',
-    function () {
+    () => {
 
         applyPostFilters();
     }
@@ -1350,6 +1382,10 @@ function applyPostFilters() {
     // чтобы не изменять исходные данные.
     let result =
         [...loadedPosts];
+
+    
+
+
 
 
     // --------------------------------
@@ -1455,14 +1491,10 @@ function applyPostFilters() {
 
         result =
             result.filter(
-                function (post) {
-
-                    return (
-                        post.userId ===
-                        authorId
+                 (post) => post.userId === authorId                     
+                                            
                     );
-                }
-            );
+             
     }
 
 
@@ -1720,3 +1752,8 @@ loadPostsButton.addEventListener(
         loadPosts();
     }
 );
+
+
+
+
+
