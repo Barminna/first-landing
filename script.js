@@ -1832,7 +1832,13 @@ if (userName === '') {
     formMessage.textContent =
         'Введите имя.';
 
-
+    formMessage.className =
+    'form-message--error';
+    
+    //подсветка поля имени
+    userNameInput.classList.add(
+    'input-error'
+    );
 // =================================
 // ПРОВЕРКА EMAIL
 // =================================
@@ -1842,15 +1848,89 @@ if (userName === '') {
     formMessage.textContent =
         'Введите email.';
 
-
+    formMessage.className =
+    'form-message--error';
 // =================================
 // ВСЁ ЗАПОЛНЕНО
 // =================================
 
+// =================================
+// ПРОВЕРКА ФОРМАТА EMAIL
+// =================================
+
+} else if (!userEmailInput.checkValidity()) {
+
+    formMessage.textContent =
+        'Введите корректный email.';
+
+    formMessage.className =
+    'form-message--error';
+
+    // Подсвечиваем неправильное поле.
+    userEmailInput.classList.add(
+    'input-error'
+    );
 } else {
 
     formMessage.textContent =
         `Спасибо, ${userName}! Ваш email: ${userEmail}`;
-}
-        
 
+    formMessage.className =
+    'form-message--success';
+
+        // Убираем подсветку ошибки,
+        // потому что данные теперь корректные.
+        userEmailInput.classList.remove(
+            'input-error'
+        );
+
+       userNameInput.classList.remove(
+            'input-error'
+        ); 
+
+    // Очищаем все поля формы
+    // после успешной проверки.
+    contactForm.reset();
+
+    // =================================
+    // СНЯТИЕ ОШИБКИ ПРИ ИСПРАВЛЕНИИ ПОЛЯ
+    // =================================
+
+    // Как только пользователь начинает
+    // исправлять имя — убираем красную рамку.
+    userNameInput.addEventListener(
+        'input',
+        () => {
+
+            userNameInput.classList.remove(
+                'input-error'
+            );
+        }
+    );
+
+
+    // То же самое для email.
+    userEmailInput.addEventListener(
+        'input',
+        () => {
+
+            userEmailInput.classList.remove(
+                'input-error'
+            );
+        }
+    );
+
+
+
+}
+
+
+// Закрываем стрелочную функцию:
+// (event) => { ... }
+    }
+
+// Закрываем addEventListener(
+//     'submit',
+//     ...
+// );
+);

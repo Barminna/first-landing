@@ -716,3 +716,23 @@ h1 {
     padding: 10px 12px;
     font: inherit;
 }
+
+/* =================================
+   СООБЩЕНИЯ ФОРМЫ
+   ================================= */
+
+.form-message--error {
+    color: crimson;
+}
+
+.form-message--success {
+    color: green;
+}
+
+/* =================================
+   ОШИБКА В ПОЛЕ ФОРМЫ
+   ================================= */
+
+.input-error {
+    border: 2px solid crimson;
+}
