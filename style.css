@@ -694,3 +694,25 @@ h1 {
     min-width: 300px;
     flex: 1;
 }
+
+
+
+/* =================================
+   УЧЕБНАЯ ФОРМА
+   ================================= */
+
+.form-section {
+    margin-top: 40px;
+}
+
+#contactForm {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 400px;
+}
+
+#contactForm input {
+    padding: 10px 12px;
+    font: inherit;
+}

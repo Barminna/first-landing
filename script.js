@@ -1754,6 +1754,103 @@ loadPostsButton.addEventListener(
 );
 
 
+// ============================================================
+// 6. УЧЕБНАЯ ФОРМА
+// ============================================================
 
 
+// Находим саму форму.
+const contactForm =
+    document.querySelector(
+        '#contactForm'
+    );
+
+
+// Находим поле имени.
+const userNameInput =
+    document.querySelector(
+        '#userName'
+    );
+
+        // Поле email.
+        const userEmailInput =
+            document.querySelector(
+                '#userEmail'
+            );
+
+
+
+
+// Здесь будем показывать
+// сообщение пользователю.
+const formMessage =
+    document.querySelector(
+        '#formMessage'
+    );
+
+
+
+// ============================================================
+// ОТПРАВКА ФОРМЫ
+// ============================================================
+
+contactForm.addEventListener(
+    'submit',
+    (event) => {
+
+        // По умолчанию браузер при отправке формы
+        // пытается отправить данные
+        // и перезагрузить страницу.
+        //
+        // Пока нам это не нужно.
+        //
+        // preventDefault()
+        // отменяет стандартное поведение формы.
+        event.preventDefault();
+
+
+        // Получаем текст из input.
+        //
+        // trim() убирает пробелы
+        // в начале и в конце строки.
+        const userName =
+            userNameInput.value.trim();
+        
+
+        // Получаем email
+        // и тоже убираем пробелы по краям.
+        const userEmail =
+            userEmailInput.value.trim();
+
+
+// =================================
+// ПРОВЕРКА ИМЕНИ
+// =================================
+
+if (userName === '') {
+
+    formMessage.textContent =
+        'Введите имя.';
+
+
+// =================================
+// ПРОВЕРКА EMAIL
+// =================================
+
+} else if (userEmail === '') {
+
+    formMessage.textContent =
+        'Введите email.';
+
+
+// =================================
+// ВСЁ ЗАПОЛНЕНО
+// =================================
+
+} else {
+
+    formMessage.textContent =
+        `Спасибо, ${userName}! Ваш email: ${userEmail}`;
+}
+        
 

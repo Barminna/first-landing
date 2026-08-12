@@ -368,6 +368,61 @@
 
 
 
+<!-- =================================
+     УЧЕБНАЯ ФОРМА
+     ================================= -->
+
+<section class="form-section">
+
+    <h2>
+        Форма обратной связи
+    </h2>
+
+    <form id="contactForm">
+
+        <!--
+            label объясняет пользователю,
+            что нужно ввести в поле.
+
+            for="userName" связывает label
+            с input id="userName".
+        -->
+        <label for="userName">
+            Ваше имя
+        </label>
+
+        <input
+            type="text"
+            id="userName"
+            placeholder="Введите имя"
+        >
+
+        <label for="userEmail">
+            Ваш email
+        </label>
+
+        <input
+            type="email"
+            id="userEmail"
+            placeholder="Введите email"
+        >
+
+
+        <button class="api-load-button" type="submit">
+            Отправить
+        </button>
+
+        <!--
+            Здесь JavaScript будет
+            показывать ошибку или успех.
+        -->
+        <p id="formMessage"></p>
+
+    </form>
+
+</section>
+
+
     <script src="script.js"></script>
 </body>
 </html>
