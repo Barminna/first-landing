@@ -736,3 +736,10 @@ h1 {
 .input-error {
     border: 2px solid crimson;
 }
+
+#userMessage {
+    min-height: 120px;
+    padding: 10px 12px;
+    font: inherit;
+    resize: vertical;
+}

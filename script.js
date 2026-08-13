@@ -1778,7 +1778,11 @@ const userNameInput =
                 '#userEmail'
             );
 
-
+// Поле сообщения.
+        const userMessageInput =
+            document.querySelector(
+                '#userMessage'
+            ); 
 
 
 // Здесь будем показывать
@@ -1788,7 +1792,11 @@ const formMessage =
         '#formMessage'
     );
 
-
+  // Счётчик символов сообщения.
+const messageCount =
+    document.querySelector(
+        '#messageCount'
+    );  
 
 // ============================================================
 // ОТПРАВКА ФОРМЫ
@@ -1823,6 +1831,19 @@ contactForm.addEventListener(
             userEmailInput.value.trim();
 
 
+        // Получаем текст сообщения.
+        // trim() убирает лишние пробелы
+        // в начале и конце.
+        const userMessage =
+            userMessageInput.value.trim();   
+
+
+   console.log(
+    'Сообщение:',
+    userMessage
+    );  
+            
+
 // =================================
 // ПРОВЕРКА ИМЕНИ
 // =================================
@@ -1839,74 +1860,184 @@ if (userName === '') {
     userNameInput.classList.add(
     'input-error'
     );
-// =================================
-// ПРОВЕРКА EMAIL
-// =================================
 
-} else if (userEmail === '') {
+    // =================================
+    // ПРОВЕРКА ДЛИНЫ ИМЕНИ
+    // =================================
 
-    formMessage.textContent =
-        'Введите email.';
+    // Если имя состоит менее чем
+    // из двух символов — считаем его
+    // слишком коротким.
+    } else if (userName.length < 2) {
 
-    formMessage.className =
-    'form-message--error';
-// =================================
-// ВСЁ ЗАПОЛНЕНО
-// =================================
+        formMessage.textContent =
+            'Имя слишком короткое.';
 
-// =================================
-// ПРОВЕРКА ФОРМАТА EMAIL
-// =================================
+        formMessage.className =
+            'form-message--error';
 
-} else if (!userEmailInput.checkValidity()) {
-
-    formMessage.textContent =
-        'Введите корректный email.';
-
-    formMessage.className =
-    'form-message--error';
-
-    // Подсвечиваем неправильное поле.
-    userEmailInput.classList.add(
-    'input-error'
-    );
-} else {
-
-    formMessage.textContent =
-        `Спасибо, ${userName}! Ваш email: ${userEmail}`;
-
-    formMessage.className =
-    'form-message--success';
-
-        // Убираем подсветку ошибки,
-        // потому что данные теперь корректные.
-        userEmailInput.classList.remove(
+        // Подсвечиваем поле имени.
+        userNameInput.classList.add(
             'input-error'
         );
 
-       userNameInput.classList.remove(
+    // =================================
+    // ПРОВЕРКА ЦИФР В ИМЕНИ
+    // =================================
+
+    } else if (/\d/.test(userName)) {
+
+        formMessage.textContent =
+            'Имя не должно содержать цифры.';
+
+        formMessage.className =
+            'form-message--error';
+
+        userNameInput.classList.add(
             'input-error'
-        ); 
+        );
+        // =================================
+        // ПРОВЕРКА СИМВОЛОВ В ИМЕНИ
+        // =================================
+        //
+        // Разрешаем:
+        // - русские буквы;
+        // - латинские буквы;
+        // - пробел;
+        // - дефис;
+        // - апостроф.
+        //
+        // Знак ^ означает начало строки.
+        // Знак $ означает конец строки.
+        // + означает: разрешённых символов
+        // должно быть один или больше.
 
-    // Очищаем все поля формы
-    // после успешной проверки.
-    contactForm.reset();
+        } else if (
+            !/^[A-Za-zА-Яа-яЁё' -]+$/.test(userName)
+        ) {
 
-    // =================================
-    // СНЯТИЕ ОШИБКИ ПРИ ИСПРАВЛЕНИИ ПОЛЯ
-    // =================================
+            formMessage.textContent =
+                'Имя содержит недопустимые символы.';
 
-    // Как только пользователь начинает
-    // исправлять имя — убираем красную рамку.
-    userNameInput.addEventListener(
-        'input',
-        () => {
+            formMessage.className =
+                'form-message--error';
 
-            userNameInput.classList.remove(
+            userNameInput.classList.add(
                 'input-error'
             );
-        }
-    );
+    // =================================
+    // ПРОВЕРКА EMAIL
+    // =================================
+
+    } else if (userEmail === '') {
+
+        formMessage.textContent =
+            'Введите email.';
+
+        formMessage.className =
+        'form-message--error';
+    // =================================
+    // ВСЁ ЗАПОЛНЕНО
+    // =================================
+
+    // =================================
+    // ПРОВЕРКА ФОРМАТА EMAIL
+    // =================================
+
+    } else if (!userEmailInput.checkValidity()) {
+
+        formMessage.textContent =
+            'Введите корректный email.';
+
+        formMessage.className =
+        'form-message--error';
+
+        // Подсвечиваем неправильное поле.
+        userEmailInput.classList.add(
+        'input-error'
+        );
+
+    // =================================
+    // ПРОВЕРКА СООБЩЕНИЯ
+    // =================================
+
+    } else if (userMessage === '') {
+        
+        formMessage.textContent =
+            'Введите сообщение.';
+
+        formMessage.className =
+            'form-message--error';
+
+        // Пока просто подсвечиваем textarea
+        // тем же классом, который уже используем
+        // для неправильных input.
+        userMessageInput.classList.add(
+            'input-error'
+        );
+
+
+        // =================================
+        // ПРОВЕРКА ДЛИНЫ СООБЩЕНИЯ
+        // =================================
+
+     } else if (userMessage.length < 10) {
+
+            formMessage.textContent =
+                'Сообщение должно содержать минимум 10 символов.';
+
+            formMessage.className =
+                'form-message--error';
+
+            userMessageInput.classList.add(
+                'input-error'
+            );
+    
+
+    } else {
+
+        formMessage.textContent =
+            `Спасибо, ${userName}! Ваш email: ${userEmail}`;
+
+        formMessage.className =
+        'form-message--success';
+
+            // Убираем подсветку ошибки,
+            // потому что данные теперь корректные.
+            userEmailInput.classList.remove(
+                'input-error'
+            );
+
+        userNameInput.classList.remove(
+                'input-error'
+            ); 
+
+        // Очищаем все поля формы
+        // после успешной проверки.
+        contactForm.reset();
+
+        // =================================
+        // СНЯТИЕ ОШИБКИ ПРИ ИСПРАВЛЕНИИ ПОЛЯ
+        // =================================
+
+        // Как только пользователь начинает
+        // исправлять имя — убираем красную рамку.
+        userMessageInput.addEventListener(
+            'input',
+            () => {
+
+                    // Убираем красную рамку,
+                    // когда пользователь исправляет поле.
+                    userMessageInput.classList.remove(
+                        'input-error'
+                    );
+
+                    // Показываем текущее количество
+                    // введённых символов.
+                    messageCount.textContent =
+                        userMessageInput.value.length;
+                }
+);
 
 
     // То же самое для email.
@@ -1919,6 +2050,18 @@ if (userName === '') {
             );
         }
     );
+    // =================================
+    // СНЯТИЕ ОШИБКИ С ПОЛЯ СООБЩЕНИЯ
+    // =================================
+
+    userMessageInput.addEventListener(
+        'input',
+        () => {
+            userMessageInput.classList.remove(
+                'input-error'
+            );
+        }
+    ); 
 
 
 
