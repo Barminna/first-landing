@@ -1859,7 +1859,9 @@ contactForm.addEventListener(
             userNameInput.classList.add(
                 'input-error'
             );
-
+            // Ставим курсор в поле,
+            // которое нужно исправить.
+            userNameInput.focus();
 
         // =================================
         // ПРОВЕРКА ДЛИНЫ ИМЕНИ
@@ -1938,7 +1940,9 @@ contactForm.addEventListener(
             userEmailInput.classList.add(
                 'input-error'
             );
-
+            // Ставим курсор в пустое поле email.
+            // чтобы его сразу можно было исправить.
+            userEmailInput.focus();
 
         // =================================
         // ПРОВЕРКА ФОРМАТА EMAIL
@@ -1955,6 +1959,10 @@ contactForm.addEventListener(
             userEmailInput.classList.add(
                 'input-error'
             );
+
+            // Ставим курсор в email,
+            // чтобы его сразу можно было исправить.
+            userEmailInput.focus();
 
 
         // =================================
@@ -1973,6 +1981,7 @@ contactForm.addEventListener(
                 'input-error'
             );
 
+            userMessageInput.focus();
 
         // =================================
         // ПРОВЕРКА ДЛИНЫ СООБЩЕНИЯ
@@ -1990,7 +1999,7 @@ contactForm.addEventListener(
                 'input-error'
             );
 
-
+            userMessageInput.focus();
         // =================================
         // ВСЕ ДАННЫЕ КОРРЕКТНЫ
         // =================================
@@ -2003,26 +2012,74 @@ contactForm.addEventListener(
             formMessage.className =
                 'form-message--success';
 
-            // На всякий случай снимаем
-            // красную рамку со всех полей.
-            userNameInput.classList.remove(
-                'input-error'
+
+            // =================================
+            // СОБИРАЕМ ДАННЫЕ ФОРМЫ В ОБЪЕКТ
+            // =================================
+
+            
+            const formData = {
+                name: userName,
+                email: userEmail,
+                message: userMessage
+            };
+
+            console.log(
+                'Данные формы:',
+                formData
             );
 
-            userEmailInput.classList.remove(
-                'input-error'
+
+            // =================================
+            // ПРЕВРАЩАЕМ ОБЪЕКТ В JSON
+            // =================================
+
+            const formDataJSON =
+                JSON.stringify(formData);
+
+
+            // =================================
+            // НАСТРОЙКИ БУДУЩЕГО POST-ЗАПРОСА
+            // =================================
+
+            const requestOptions = {
+
+                // POST означает:
+                // мы хотим ОТПРАВИТЬ данные серверу.
+                method: 'POST',
+
+                // Объясняем серверу,
+                // в каком формате отправляем данные.
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+
+                // Сами данные,
+                // которые отправятся серверу.
+                body: formDataJSON
+            };
+
+            console.log(
+                'Настройки запроса:',
+                requestOptions
             );
 
-            userMessageInput.classList.remove(
-                'input-error'
+
+
+            console.log(
+                'JSON:',
+                formDataJSON
             );
+
+            console.log(
+                'Данные формы:',
+                formData
+            );
+
 
             // Очищаем форму.
             contactForm.reset();
 
-            // reset() очищает textarea,
-            // но событие input при этом не возникает,
-            // поэтому счётчик обнуляем вручную.
             messageCount.textContent = '0';
         }
 
@@ -2032,7 +2089,7 @@ contactForm.addEventListener(
         // =================================
 
         
-    );
+    });
 
 
 // =================================
@@ -2046,6 +2103,9 @@ userNameInput.addEventListener(
         userNameInput.classList.remove(
             'input-error'
         );
+        // Пользователь начал исправлять данные —
+        // старое сообщение об ошибке убираем.
+        formMessage.textContent = '';
     }
 );
 
@@ -2085,45 +2145,4 @@ userMessageInput.addEventListener(
         messageCount.textContent =
             userMessageInput.value.length;
     }
-);
-
-);
-
-
-    // То же самое для email.
-    userEmailInput.addEventListener(
-        'input',
-        () => {
-
-            userEmailInput.classList.remove(
-                'input-error'
-            );
-        }
-    );
-    // =================================
-    // СНЯТИЕ ОШИБКИ С ПОЛЯ СООБЩЕНИЯ
-    // =================================
-
-    userMessageInput.addEventListener(
-        'input',
-        () => {
-            userMessageInput.classList.remove(
-                'input-error'
-            );
-        }
-    ); 
-
-
-
-}
-
-
-// Закрываем стрелочную функцию:
-// (event) => { ... }
-    }
-
-// Закрываем addEventListener(
-//     'submit',
-//     ...
-// );
 );
