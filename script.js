@@ -2059,6 +2059,67 @@ contactForm.addEventListener(
                 body: formDataJSON
             };
 
+           // =================================
+            // ОТПРАВЛЯЕМ POST-ЗАПРОС
+            // =================================
+
+            fetch(
+                'https://jsonplaceholder.typicode.com/posts',
+                requestOptions
+            )
+                .then(
+                    (response) => {
+
+                        console.log(
+                            'Ответ сервера:',
+                            response
+                        );
+
+                        // Если сервер вернул
+                        // неуспешный HTTP-статус.
+                        if (!response.ok) {
+
+                            throw new Error(
+                                `Ошибка сервера: ${response.status}`
+                            );
+                        }
+
+                        return response.json();
+                    }
+                )
+
+                .then(
+                    (data) => {
+
+                        console.log(
+                            'Данные от сервера:',
+                            data
+                        );
+                    // Показываем пользователю,
+                    // что отправка прошла успешно.
+                    formMessage.textContent =
+                        'Сообщение успешно отправлено.';
+
+                    formMessage.className =
+                        'form-message--success';
+                    
+                    }
+                )
+
+                // =================================
+                // ЛОВИМ ОШИБКУ
+                // =================================
+
+                .catch(
+                    (error) => {
+
+                        console.error(
+                            'Ошибка запроса:',
+                            error
+                        );
+                    }
+                );
+
             console.log(
                 'Настройки запроса:',
                 requestOptions
@@ -2144,5 +2205,57 @@ userMessageInput.addEventListener(
         // которые сейчас находятся в textarea.
         messageCount.textContent =
             userMessageInput.value.length;
+    }
+);
+
+// =================================
+// МОДАЛЬНОЕ ОКНО
+// =================================
+
+// Кнопка открытия.
+const openModalButton =
+    document.querySelector(
+        '#openModal'
+    );
+
+// Само модальное окно.
+const modal =
+    document.querySelector(
+        '#modal'
+    );
+
+// Кнопка закрытия.
+const closeModalButton =
+    document.querySelector(
+        '#closeModal'
+    );
+
+
+// =================================
+// ОТКРЫТИЕ ОКНА
+// =================================
+
+openModalButton.addEventListener(
+    'click',
+    () => {
+
+        modal.classList.add(
+            'modal--open'
+        );
+    }
+);
+
+
+// =================================
+// ЗАКРЫТИЕ ОКНА
+// =================================
+
+closeModalButton.addEventListener(
+    'click',
+    () => {
+
+        modal.classList.remove(
+            'modal--open'
+        );
     }
 );

@@ -743,3 +743,15 @@ h1 {
     font: inherit;
     resize: vertical;
 }
+
+/* =================================
+   МОДАЛЬНОЕ ОКНО
+================================= */
+
+.modal {
+    display: none;
+}
+
+.modal--open {
+    display: block;
+}
