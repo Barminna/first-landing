@@ -2302,7 +2302,36 @@ document.addEventListener(
     'keydown',
     (event) => {
 
-       closeModal();
+        // Закрываем окно только тогда,
+        // когда пользователь нажал Escape.
+        if (event.key === 'Escape') {
+
+            closeModal();
         }
+    }
+);
+
+
+// =================================
+// АККОРДЕОН
+// =================================
+
+const accordionButton =
+    document.querySelector(
+        '#accordionButton'
+    );
+
+const accordionContent =
+    document.querySelector(
+        '#accordionContent'
+    );
+
+accordionButton.addEventListener(
+    'click',
+    () => {
+
+        accordionContent.classList.toggle(
+            'accordion__content--open'
+        );
     }
 );
