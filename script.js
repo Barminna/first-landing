@@ -2230,7 +2230,20 @@ const closeModalButton =
         '#closeModal'
     );
 
+// =================================
+// ФУНКЦИЯ ЗАКРЫТИЯ МОДАЛЬНОГО ОКНА
+// =================================
 
+const closeModal = () => {
+
+    // Скрываем модальное окно.
+    modal.classList.remove(
+        'modal--open'
+    );
+
+    // Возвращаем прокрутку страницы.
+    document.body.style.overflow = '';
+};
 // =================================
 // ОТКРЫТИЕ ОКНА
 // =================================
@@ -2242,6 +2255,11 @@ openModalButton.addEventListener(
         modal.classList.add(
             'modal--open'
         );
+        // Пока модальное окно открыто,
+        // запрещаем прокрутку страницы.
+        document.body.style.overflow =
+            'hidden';
+
     }
 );
 
@@ -2254,8 +2272,37 @@ closeModalButton.addEventListener(
     'click',
     () => {
 
-        modal.classList.remove(
-            'modal--open'
-        );
+        closeModal();
+    }
+);
+
+// =================================
+// ЗАКРЫТИЕ ПО КЛИКУ НА ФОН
+// =================================
+
+modal.addEventListener(
+    'click',
+    (event) => {
+
+        // Если пользователь кликнул
+        // именно по затемнённому фону,
+        // а не по содержимому окна.
+        if (event.target === modal) {
+
+            closeModal();
+        }
+    }
+);
+
+// =================================
+// ЗАКРЫТИЕ МОДАЛЬНОГО ОКНА ПО ESC
+// =================================
+
+document.addEventListener(
+    'keydown',
+    (event) => {
+
+       closeModal();
+        }
     }
 );

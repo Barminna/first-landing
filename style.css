@@ -749,9 +749,44 @@ h1 {
 ================================= */
 
 .modal {
+    /* Пока окно скрыто. */
     display: none;
+
+    /* Приклеиваем окно к экрану,
+       а не к странице. */
+    position: fixed;
+
+    /* Растягиваем на весь экран. */
+    inset: 0;
+
+    /* Затемнение страницы. */
+    background: rgba(0, 0, 0, 0.6);
+
+    /* Окно должно быть поверх
+       остальных элементов сайта. */
+    z-index: 1000;
 }
 
+
+/* Когда JavaScript добавляет этот класс,
+   показываем модальное окно. */
 .modal--open {
-    display: block;
+    display: flex;
+
+    /* Ставим содержимое по центру. */
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* Белое содержимое самого окна. */
+.modal__content {
+    background: white;
+
+    padding: 30px;
+
+    max-width: 500px;
+    width: 90%;
+
+    border-radius: 12px;
 }
